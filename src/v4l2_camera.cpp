@@ -41,11 +41,18 @@ V4L2Camera::V4L2Camera(rclcpp::NodeOptions const & options)
   // Prepare publisher
   // This should happen before registering on_set_parameters_callback,
   // else transport plugins will fail to declare their parameters
+  auto publish_topic_name = std::string{};
+  auto publish_topic_name_descriptor = rcl_interfaces::msg::ParameterDescriptor{};
+  publish_topic_name_descriptor.description = "Name of the topic to publish the image to";
+  publish_topic_name_descriptor.read_only = true;
+  publish_topic_name = declare_parameter<std::string>(
+    "publish_topic_name", "image_raw", publish_topic_name_descriptor);
+
   if (options.use_intra_process_comms()) {
-    image_pub_ = create_publisher<sensor_msgs::msg::Image>("image_raw", 10);
+    image_pub_ = create_publisher<sensor_msgs::msg::Image>(publish_topic_name, 10);
     info_pub_ = create_publisher<sensor_msgs::msg::CameraInfo>("camera_info", 10);
   } else {
-    camera_transport_pub_ = image_transport::create_camera_publisher(this, "image_raw");
+    camera_transport_pub_ = image_transport::create_camera_publisher(this, publish_topic_name);
   }
 
   parameters_.declareStaticParameters();
