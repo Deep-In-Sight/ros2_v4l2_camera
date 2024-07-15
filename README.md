@@ -68,7 +68,7 @@ publishes images as `sensor_msgs/Image` messages.
     
 * `publish_topic_name` - `string`, default: `"image_raw"`
 
-    The device the camera is on.
+    Publish topic name
 
 * `pixel_format` - `string`, default: `"YUYV"`
 
