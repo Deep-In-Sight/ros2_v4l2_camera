@@ -23,6 +23,12 @@ Publish camera images, using the default parameters:
 
         ros2 run v4l2_camera v4l2_camera_node
 
+Publish camera images, 
+
+using the image_size:[1920,1080],  publish_topic_name:image_raw0, video_device:/dev/video0 parameters:
+
+        ros2 run v4l2_camera v4l2_camera_node --ros-args -p video_device:=/dev/video0 -p image_size:=[1920,1080] -p publish_topic_name:=image_raw0
+
 Preview the image (open another terminal):
 
         ros2 run rqt_image_view rqt_image_view
@@ -57,6 +63,10 @@ publishes images as `sensor_msgs/Image` messages.
 #### Parameters
 
 * `video_device` - `string`, default: `"/dev/video0"`
+
+    The device the camera is on.
+    
+* `publish_topic_name` - `string`, default: `"image_raw"`
 
     The device the camera is on.
 
